@@ -15,7 +15,7 @@ export class LibraryA {
     }
 
     public getData(){
-        this.container?.execute<string>("I Execute On class A")
+        this.container.execute<string>("I Execute On class A")
         return ["dataA","dataB"]
     }
 
@@ -28,7 +28,7 @@ export class LibraryB {
     }
 
     public getMoreData(){
-        var b = this.libA?.getData()
+        var b = this.libA.getData()
         return {
             dataA:[1,2,3],
             context:b
@@ -54,7 +54,7 @@ export class LibraryC {
     }
 
     public DoSomething(){
-        this.container?.execute<any>(this.libA?.getData());
-        this.container?.execute<any>(this.libB?.getMoreData());
+        this.container.execute<any>(this.libA?.getData());
+        this.container.execute<any>(this.libB?.getMoreData());
     }
 }
