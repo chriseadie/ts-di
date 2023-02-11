@@ -1,60 +1,19 @@
+import { Logger } from "./Logger"
 import { Injectable } from "./decorators"
-
-export class Container {
-
-    public execute<T>(text:T){
-        console.log(text)
-    }
-}
-
-@Injectable()
-export class LibraryA {
-
-    constructor(private container?:Container){
-
-    }
-
-    public getData(){
-        this.container.execute<string>("I Execute On class A")
-        return ["dataA","dataB"]
-    }
-
-}
-
-@Injectable()
-export class LibraryB {
-    constructor(private libA?:LibraryA){
-        
-    }
-
-    public getMoreData(){
-        var b = this.libA.getData()
-        return {
-            dataA:[1,2,3],
-            context:b
-        }
-    }
-
-}
-
-type Injected<T> = T | undefined
+import { LibraryA } from "./LibraryA"
+import { LibraryB } from "./LibraryB"
 
 @Injectable()
 export class LibraryC {
 
-    private readonly container:Injected<Container>
-    private readonly libB:Injected<LibraryB>
-    private readonly libA:Injected<LibraryA>
-
-    constructor(libB?:LibraryB,libA?:LibraryA,container?:Container)
-    {
-        this.container = container;
-        this.libA = libA;
-        this.libB = libB;
+    constructor(
+        private libB?:LibraryB,
+        private libA?:LibraryA,
+        private logger?:Logger){
     }
 
     public DoSomething(){
-        this.container.execute<any>(this.libA?.getData());
-        this.container.execute<any>(this.libB?.getMoreData());
+        this.logger.execute<any>(this.libA?.getData());
+        this.logger.execute<any>(this.libB?.getMoreData());
     }
 }

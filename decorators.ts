@@ -20,7 +20,7 @@ function resolveDependencies(constructor:any){
     var meta = Reflect.getOwnMetadata('design:paramtypes',constructor)
     if(deps.length == 0 && meta && meta.length > 0){
         meta.forEach((item:any) => {
-            resolveDependencies(item);
+            deps.push(resolveDependencies(item));
         })
     }
     return new constructor(...deps)
